@@ -11,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+
+
 public class SAddrDAOImpl implements SAddrDAO {
 	private static SAddrDAO instance;
 	public static SAddrDAO getInstance() {
@@ -169,8 +171,28 @@ public class SAddrDAOImpl implements SAddrDAO {
 
 	@Override
 	public ArrayList<ZipDTO> addrZipRead(String dong) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<ZipDTO> zarr = new ArrayList<ZipDTO>();
+		String sql = "select * from zipcode where dong like '%"+dong+"%'";
+		try(Connection con =getConnection();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql))
+		{while(rs.next()) {
+			ZipDTO zip = new ZipDTO();
+			zip.setBunji(rs.getString("bunji"));
+			zip.setDong(rs.getString("dong"));
+			zip.setGugun(rs.getString("gugun"));
+			zip.setSeq(rs.getInt("seq"));
+			zip.setSido(rs.getString("sido"));
+			zip.setZipcode(rs.getString("zipcode"));
+			zarr.add(zip);
+		}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return zarr;
 	}
 
 }

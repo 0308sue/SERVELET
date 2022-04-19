@@ -24,7 +24,7 @@ function zipfinder(){
 		</tr>
 		<tr>
 				<td>우편번호</td>
-				<td><input type="text" name="zipcode"  id="zipcode" size=7 >
+				<td><input type="text" name="zipcode"  id="zipcode" size=7 readonly="readonly">
 						<input type="button" value="검색"  onclick="zipfinder()">
 				</td>
 		</tr>
