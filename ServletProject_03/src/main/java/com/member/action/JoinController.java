@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.member.model.SMemberDAO;
 import com.member.model.SMemberDAOImpl;
 import com.member.model.SMemberDTO;
+import com.util.SHA256;
 
 
 /**
@@ -44,11 +45,17 @@ public class JoinController extends HttpServlet {
 		 request.setCharacterEncoding("utf-8");
 		 SMemberDTO member = new SMemberDTO();
 		 member.setName(request.getParameter("name"));
-		 member.setUserid(request.getParameter("userid"));
-		 member.setPwd(request.getParameter("pwd"));
+		 String userid = request.getParameter("userid");
+		 member.setUserid(userid);
+		// member.setPwd(request.getParameter("pwd"));
 		 member.setEmail(request.getParameter("email"));
-		 member.setPhone(request.getParameter("userid"));
+		 member.setPhone(request.getParameter("phone"));
 		 member.setAdmin(Integer.parseInt(request.getParameter("admin")));
+		 
+		 String encPwd = SHA256.getEncrypt(request.getParameter("pwd"),userid);
+		 member.setPwd(encPwd);
+		 
+		 
 		   SMemberDAO dao = SMemberDAOImpl.getInstance();
 		   dao.memberJoin(member);
 		   response.sendRedirect("login");

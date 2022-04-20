@@ -38,33 +38,131 @@ public class SMemberDAOImpl implements SMemberDAO {
 	}
 	@Override
 	public ArrayList<SMemberDTO> getMember() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<SMemberDTO> arr = new  ArrayList<SMemberDTO>();
+		String sql = "select * from memberdb";
+		try (Connection con =DBConnection.getConnection();
+			Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql)){
+			while(rs.next()) {
+				SMemberDTO member = new SMemberDTO();
+				member.setAdmin(rs.getInt("admin"));
+				member.setEmail(rs.getString("email"));
+				member.setName(rs.getString("name"));
+				member.setPhone(rs.getString("phone"));
+				member.setPwd(rs.getString("pwd"));
+				member.setUserid(rs.getString("userid"));
+				arr.add(member);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return arr;
 	}
 	@Override
 	public int memberDelete(String userid) {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag = 0;
+		String sql="delete from memberdb where userid ='" +userid+"'";
+		try(Connection con =DBConnection.getConnection();
+			Statement st = con.createStatement();
+			){
+			flag = st.executeUpdate(sql);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return flag;
 	}
+	
 	@Override
 	public int memberUpdate(SMemberDTO member) {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag = 0;
+		String sql = "update memberdb set name =?,pwd=?,email=?,phone=?,admin=? where userid=?";
+		try (Connection con =DBConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)){
+			ps.setString(1, member.getName());
+			ps.setString(2, member.getPwd());
+			ps.setString(3, member.getEmail());
+			ps.setString(4, member.getPhone());
+			ps.setInt(5, member.getAdmin());
+			ps.setString(6, member.getUserid());
+			flag = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
 	}
 	@Override
-	public SMemberDTO findByID(String usetid) {
-		// TODO Auto-generated method stub
-		return null;
+	public SMemberDTO findByID(String userid) {
+		String sql="select * from memberdb where userid ='" +userid+"'";
+		SMemberDTO member = null;
+		try(Connection con =DBConnection.getConnection();
+			Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql)){
+			if(rs.next()) {
+				member = new SMemberDTO();
+				member.setAdmin(rs.getInt("admin"));
+				member.setEmail(rs.getString("email"));
+				member.setName(rs.getString("name"));
+				member.setPhone(rs.getString("phone"));
+				member.setPwd(rs.getString("pwd"));
+				member.setUserid(rs.getString("userid"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return member;
 	}
+
 	@Override
 	public int memberCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "select count(*) from memberdb";
+		int count = 0;
+		try(Connection con =DBConnection.getConnection();
+			Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql)){
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
+
 	@Override
 	public String memberIdCheck(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+		String flag ="yes";
+		String sql="select * from memberdb where userid ='" +userid+"'";
+		try(Connection con =DBConnection.getConnection();
+			Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql))
+		{if(rs.next()) {
+			flag = "no";
+		}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 	}
 	@Override
 	public SMemberDTO memberLoginCheck(String userid, String pwd) {

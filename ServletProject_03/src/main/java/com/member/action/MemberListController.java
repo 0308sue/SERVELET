@@ -1,7 +1,7 @@
 package com.member.action;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,24 +9,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.member.model.SMemberDAO;
 import com.member.model.SMemberDAOImpl;
 import com.member.model.SMemberDTO;
-import com.util.SHA256;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class MemberListController
  */
-@WebServlet("/member/login")
-public class LoginController extends HttpServlet {
+@WebServlet("/member/memberlist")
+public class MemberListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public MemberListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,31 +33,25 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-		   rd.forward(request, response);
+		request.setCharacterEncoding("utf-8");
+		SMemberDAO dao = SMemberDAOImpl.getInstance();
+		ArrayList<SMemberDTO> arr = dao.getMember();
+		int count = dao.memberCount();
+		
+		request.setAttribute("members", arr);
+		request.setAttribute("count", count);
+		
+		request.getRequestDispatcher("memberList.jsp").forward(request, response);
+		
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String userid = request.getParameter("userid");
-		String pwd = request.getParameter("pwd");
-		
-		 String encPwd = SHA256.getEncrypt(pwd,userid);
-		
-		 SMemberDAO dao = SMemberDAOImpl.getInstance();
-		 SMemberDTO member = dao.memberLoginCheck(userid, encPwd);
-		 
-		 int flag = member.getAdmin();
-		 if(flag ==0 || flag ==1){
-				HttpSession session=request.getSession();
-				session.setAttribute("suser", member);
-			}
-		 response.setContentType("text/html;charset=utf-8");
-		 PrintWriter out = response.getWriter();
-		 out.println(flag);
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

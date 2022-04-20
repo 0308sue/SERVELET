@@ -36,7 +36,21 @@
 			url : "login",
 			data:{"userid" : $("#userid").val(),"pwd" : $("#pwd").val()},
 			success: function(resp){
-				alert(resp)
+				if(resp.trim()==0){
+					alert("일반회원 로그인 ")
+					location.href = "../board/boardlist"
+				}
+				else if(resp.trim()==1){
+					alert("관리자 로그인 ")
+					location.href = "memberlist";
+				}
+				else if(resp.trim()==-1){
+					alert("회원이 아닙니다.회원가입 하세요.")
+					location.href = "join";
+				}
+				else if(resp.trim()==2){
+					alert("비밀번호를 확인하세요")
+				}
 			},
 			error : function (e) {
 				alert("error: "+e);

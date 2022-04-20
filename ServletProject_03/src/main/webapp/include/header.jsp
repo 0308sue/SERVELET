@@ -22,7 +22,7 @@
       <a class="nav-link" href="#">HOME</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">게시판</a>
+      <a class="nav-link" href="/ServletProject_03/board/boardlist">게시판</a>
     </li>
      <li class="nav-item">
       <a class="nav-link" href="#">상품보기</a>
@@ -41,7 +41,7 @@
       <a class="nav-link" href="/ServletProject_03/member/logout">로그아웃</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="">회원변경</a>
+      <a class="nav-link" href="/ServletProject_03/member/update">회원변경</a>
     </li>
     </c:if>
   </ul>
