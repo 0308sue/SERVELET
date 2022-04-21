@@ -3,7 +3,6 @@ package com.board.model;
 public class CommentDTO {
 	private int cnum;
 	private String userid;
-	private String subject;
 	private String msg;
 	private String regdate;
 	private int bnum;
@@ -18,12 +17,6 @@ public class CommentDTO {
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
-	}
-	public String getSubject() {
-		return subject == null ? "" : subject.trim();
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
 	}
 	public String getMsg() {
 		return msg == null ? "" : msg.trim();

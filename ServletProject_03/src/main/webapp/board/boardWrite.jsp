@@ -13,7 +13,8 @@
 
 			<div class="form-group">
 				<label for="userid">userid:</label> <input type="text"
-					class="form-control" id="userid" placeholder="Enter name" name="userid">
+					class="form-control" id="userid" name="userid"
+					readonly="readonly" value="${sessionScope.suser.userid}">
 			</div>
 
 			
