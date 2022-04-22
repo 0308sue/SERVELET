@@ -25,7 +25,8 @@
 							alt="Card image" style="width: 100%" >
 						<div class="card-body">
 							<h4 class="card-title">상품명 : ${product.pname }</h4>
-							<p class="card-text">가격 : ${product.unitPrice }</p>
+							<p class="card-text">가격 : ${product.description }</p>
+							 <a href="pdetail?productId=${product.productId}" class="btn btn-primary">상세보기</a>
 						</div> <!-- card-body -->
 					</div> <!-- card -->
 				</div> <!-- col -->

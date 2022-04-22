@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.product.model.Product;
+import com.product.model.ProductDAO;
+import com.product.model.ProductDAOImpl;
+
 /**
  * Servlet implementation class ProductDetailController
  */
@@ -26,8 +30,13 @@ public class ProductDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setCharacterEncoding("utf-8");
+		long productid = Long.parseLong(request.getParameter("productId"));
+		ProductDAO dao = ProductDAOImpl.getInstance();
+		Product product = dao.findById(productid);
+		request.setAttribute("product", product);
+		
+		request.getRequestDispatcher("productDetail.jsp").forward(request, response);
 	}
 
 	/**
